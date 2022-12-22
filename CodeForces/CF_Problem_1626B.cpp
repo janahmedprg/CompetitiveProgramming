@@ -1,40 +1,34 @@
-#include<iostream>
-#include <vector>
 #include <bits/stdc++.h>
 
 using namespace std;
+using ll = long long;
 
-int main(){
-    int t;
-    cin>>t;
-    for(int te = 0; te<t;te++){
-        int x,a,b,xo;
-        cin>>x;
-        vector<int> v;
-        int e = 0;
-        xo=x;
-        while(x/100>0){
-            a = x%10;
-            b = (x%100)/10;
-            if ((a+b)<10){
-                v.push_back((xo/(int)round(pow(10,2+e)))*(int)round(pow(10,1+e))+(a+b)*(int)round(pow(10,e))+xo%(int)round(pow(10,e)));
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int T;
+    cin >> T;
+    while (T--)
+    {
+        string s;
+        cin>> s;
+        ll k = s.size();
+        bool flag = false;
+        for(ll i = k-1; i>0; --i){
+            if((int)s[i]+(int)s[i-1]-2*48>=10){
+                string tmp = to_string((int)s[i]+(int)s[i-1]-2*48);
+                s.replace(i-1,2,tmp);
+                flag = true;
+                break;
             }
-            else{
-                v.push_back((xo/(int)round(pow(10,2+e)))*(int)round(pow(10,2+e))+(a+b)*(int)round(pow(10,e))+xo%(int)round(pow(10,e)));
-            }
-            e+=1;
-            x=x/10;
         }
-        a = x%10;
-        b = (x%100)/10;
-        if ((a+b)<10){
-            v.push_back((xo/(int)round(pow(10,2+e)))*(int)round(pow(10,1+e))+(a+b)*(int)round(pow(10,e))+xo%(int)round(pow(10,e)));
+        if (flag){
+            cout<< s<<"\n"; 
         }
         else{
-            v.push_back((xo/(int)round(pow(10,2+e)))*(int)round(pow(10,2+e))+(a+b)*(int)round(pow(10,e))+xo%(int)round(pow(10,e)));
+            cout<<s.replace(0,2,to_string((int)s[1]+(int)s[0]-2*48))<< "\n";
         }
-        sort(v.begin(),v.end());
-        cout<<v[v.size()-1]<<endl;
     }
     return 0;
 }
