@@ -11,6 +11,9 @@ int main()
     cin >> T;
     while (T--)
     {
+        string s;
+        cin >> s;
+        cout<<(int)s[0]-48 + (int)s[2] - 48<<"\n";
     }
     return 0;
 }

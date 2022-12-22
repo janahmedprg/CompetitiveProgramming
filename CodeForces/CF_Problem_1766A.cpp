@@ -11,6 +11,10 @@ int main()
     cin >> T;
     while (T--)
     {
+        string s;
+        cin>> s;
+        ll n = s.length();
+        cout<< (int)s[0]-48 + (n-1)*9<<"\n";
     }
     return 0;
 }
