@@ -11,21 +11,19 @@ int main()
     cin >> T;
     while (T--)
     {
-        ll n,k;
-        cin>>n>>k;
-        ll sc = 0;
-        vector<ll> v;
-        for(int i = 1; i<=n;++i){
-            ll a;
-            cin>>a;
-            v.push_back(a);
-            if(i == k){
-                sc = a;
-            }
-        }
-        ll c = 0;
+        int n;
+        cin>>n;
+        vector<int> v(n);
+        int c= 1;
         for(int i = 0;i<n;++i){
-            if(v[i]>=sc && v[i]>0){
+            cin>>v[i]; 
+        }
+        sort(v.begin(),v.end());
+        for(int i =0;i<n;++i){
+            if(v[i]>i){
+                while(v[i]>i){
+                    i+=1;
+                }
                 c+=1;
             }
         }
