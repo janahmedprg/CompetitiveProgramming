@@ -11,17 +11,22 @@ int main()
     cin >> T;
     while (T--)
     {
-        ll n;
+        int n;
         cin>>n;
-        vector<ll> v;
-        for (int i = 0; i<n; ++i){
-            ll a;
+        int c = 0;
+        for (int i = 0;i<n;++i){
+            int a;
             cin>>a;
-            v.push_back(a);
+            if(a%2!=0){
+                c+=1;
+            } 
         }
-        vector<ll> dp(n);
-        
-
+        if(c%2==0){
+            cout<<"YES\n";
+        }
+        else{
+            cout<<"NO\n";
+        }
     }
     return 0;
 }

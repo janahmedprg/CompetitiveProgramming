@@ -13,15 +13,15 @@ int main()
     {
         ll n;
         cin>>n;
-        vector<ll> v;
-        for (int i = 0; i<n; ++i){
-            ll a;
+        int count = 0;
+        for(int i = 1; i<=n; ++i){
+            int a;
             cin>>a;
-            v.push_back(a);
+            if(i == a){
+                count +=1;
+            }
         }
-        vector<ll> dp(n);
-        
-
+        cout<<(count+1)/2<<"\n";
     }
     return 0;
 }
