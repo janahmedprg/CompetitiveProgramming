@@ -12,10 +12,10 @@ int main()
     while (T--)
     {
         int n,k;
-        int prod = 1;
+        ll prod = 1;
         cin>>n>>k; 
         for(int i = 0; i<n;++i){
-            int  tmp;
+            ll  tmp;
             cin>>tmp;
             prod*=tmp;
         }
