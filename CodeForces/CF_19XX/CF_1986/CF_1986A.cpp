@@ -12,7 +12,9 @@ int32_t main()
     cin >> T;
     while (T--)
     {
-        
+        int a,b,c;
+        cin>>a>>b>>c;
+        cout<<max(max(a,b),c) - min(min(a,b),c)<<"\n";
     }
     return 0;
 }

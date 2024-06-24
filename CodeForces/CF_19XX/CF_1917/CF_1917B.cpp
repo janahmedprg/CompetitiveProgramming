@@ -12,7 +12,17 @@ int32_t main()
     cin >> T;
     while (T--)
     {
-        
+        map<char, int> m;
+        string s;
+        int n;
+        cin>>n;
+        cin>>s;
+        int c = 0;
+        for(int i = 0; i<n;++i){
+            m[s[i]] = 1;
+            c += m.size();
+        }
+        cout<<c<<"\n";
     }
     return 0;
 }
