@@ -13,7 +13,18 @@ int32_t main()
     cin >> T;
     while (T--)
     {
-        
+        int n,k;
+        cin>>n>>k;
+        read_vector(cake, k);
+        int ma = 0;
+        int su = 0;
+        for(int i = 0; i<k; ++i){
+            su += 2*cake[i] - 1;
+            if(ma<cake[i]){
+                ma = cake[i];
+            }
+        }
+        cout<<su-2*ma+1<<"\n";
     }
     return 0;
 }

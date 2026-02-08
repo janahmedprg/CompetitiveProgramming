@@ -13,7 +13,21 @@ int32_t main()
     cin >> T;
     while (T--)
     {
-        
+       int n,m,k;
+       cin>>n>>m>>k;
+       int i = 0;
+       int j = m-1;
+       while(m-j<=m){
+        if (n-i == m){
+            cout<<m-j<<" ";
+            j-=1;
+        }
+        else{
+            cout<<n-i<<" ";
+            i+=1;
+        }
+       }
+       cout<<"\n";
     }
     return 0;
 }

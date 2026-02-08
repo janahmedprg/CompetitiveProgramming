@@ -13,7 +13,12 @@ int32_t main()
     cin >> T;
     while (T--)
     {
-        
+        int n;
+        cin>>n;
+        for (int i = 1; i<=n;++i){
+            cout<<i<<" ";
+        }
+        cout<<"\n";
     }
     return 0;
 }

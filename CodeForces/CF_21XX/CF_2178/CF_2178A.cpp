@@ -13,7 +13,19 @@ int32_t main()
     cin >> T;
     while (T--)
     {
-        
+        string s;
+        cin >> s;
+        int count = 0;
+        for (char c : s) {
+            if (c == 'Y') {
+                count++;
+            }
+        }
+        if (count >= 2) {
+            cout << "NO\n";
+        } else {
+            cout << "YES\n";
+        }
     }
     return 0;
 }
