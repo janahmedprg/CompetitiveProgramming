@@ -9,29 +9,27 @@ pair<bool,pair<int,int>> dfs(int node, vector<int>& visited, vector<vector<int>>
     int color = visited[node];
     int opp = 1;
     if (color == 1){
-        opp = -1;
+        opp = 0;
     }
+    bool flag = true;
+    int total = 1;
+    int colorOne = color;
+
     for (const auto& neighbor : A[node]) {
-        if (visited[neighbor] == 0) {
+        if (visited[neighbor] == -1) {
             visited[neighbor] = opp;
-            int inc = 0;
-            if (color == 1){
-                inc = 1;
-            }
             pair<bool,pair<int,int>> ret = dfs(neighbor, visited, A);
-            return {true && ret.first,{ret.second.first+1, ret.second.second + inc}};
+            flag = flag && ret.first;
+            total += ret.second.first;
+            colorOne += ret.second.second;
         }
         else {
             if (visited[neighbor] == color){
-                return {false,{0,0}};
+                flag = false;
             }
         }
     }
-    int inc = 0;
-    if (color == 1){
-        inc = 1;
-    }
-    return {true,{1, inc}};
+    return {flag,{total, colorOne}};
 }
 
 
@@ -46,7 +44,7 @@ int32_t main()
         int n,m;
         cin>>n>>m;
         vector<vector<int>> A(n);
-        vector<int> visited(n,0);
+        vector<int> visited(n,-1);
 
         for (int i = 0; i<m; ++i){
             int u,v;
@@ -57,15 +55,9 @@ int32_t main()
             A[v].push_back(u);
         }
 
-        // for(const auto& x: A){
-        //     for (const auto& y:x){
-        //         cout<<y<<" ";
-        //     }
-        //     cout<<"\n";
-        // }
         int count = 0;
         for (int i = 0; i<n; ++i){
-            if (visited[i] == 0) {
+            if (visited[i] == -1) {
                 visited[i] = 1;
                 pair<bool,pair<int,int>> ret = dfs(i, visited, A);
                 if (ret.first){
