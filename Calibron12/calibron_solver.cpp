@@ -5,7 +5,6 @@ using ll = long long;
 const int WIDTH = 56;
 const int HEIGHT = 56;
 vector<pair<int, pair<int,int>>> placed_order;
-vector<bool> placed_pieces(13, false);
 vector<vector<int>> board(HEIGHT+1, vector<int>(WIDTH+1, 0));
 vector<pair<int,int>> pieces = {
     {21, 14},
@@ -23,6 +22,8 @@ vector<pair<int,int>> pieces = {
 };
 priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int,int>>> right_empty_pos;
 priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int,int>>> top_empty_pos;
+vector<bool> placed_pieces(pieces.size()+1, false);
+vector<vector<pair<int, int>>> reset(pieces.size()+1);
 
 
 bool place_piece(pair<int,int>& xy, int id) {
@@ -35,6 +36,7 @@ bool place_piece(pair<int,int>& xy, int id) {
     int y1 = xy.second + ((id>0) ? pieces[id-1].second : pieces[abs(id)-1].first);
 
     bool pushRight = true;
+    vector<pair<int, int>> to_reset;
     for (const auto& [id, placed_xy] : placed_order) {
         int x0_prime = placed_xy.first;
         int x1_prime = placed_xy.first + ((id>0) ? pieces[id-1].first : pieces[abs(id)-1].second);
@@ -46,14 +48,16 @@ bool place_piece(pair<int,int>& xy, int id) {
             return false;
         }
 
-        if (x1 == x0_prime && y0 >= y0_prime && y0 <= y1_prime) {
+        if (x1 == x0_prime && y0 >= y0_prime && y0 < y1_prime) {
             pushRight = false;
         }
 
-        if (y1_prime == y0 && x0_prime >= x0 && x0_prime <= x1) {
+        if (y1_prime == y0 && x0_prime >= x0 && x0_prime < x1) {
             board[x0_prime][y1_prime] = 0;
+            to_reset.push_back({x0_prime, y1_prime});
         }
     }
+    reset[abs(id)] = to_reset;
 
     if (pushRight && x1 < WIDTH) {
         right_empty_pos.push({x1, y0});
@@ -70,7 +74,6 @@ bool place_piece(pair<int,int>& xy, int id) {
     return true;
 }
 
-// TODO: The remove needs to also add empty pos to PQs
 void remove_last_piece() {
     auto [id, xy] = placed_order.back();
     placed_order.pop_back();
@@ -85,6 +88,11 @@ void remove_last_piece() {
     board[x1][y0] = 0;
     board[x0][y1] = 0;
     placed_pieces[abs(id)] = false;
+    for (const auto& [x, y] : reset[abs(id)]) {
+        top_empty_pos.push({y,x});
+        board[x][y] = 1;
+    }
+    reset[abs(id)].clear();
     return;
 }
 
@@ -92,9 +100,6 @@ pair<int, int> get_next_empty_pos() {
     pair<int, int> new_xy;
     while (true) {
         if (right_empty_pos.empty()) {
-            if (top_empty_pos.empty()) {
-                return {-1,-1};
-            }
             new_xy = top_empty_pos.top();
             top_empty_pos.pop();
             new_xy = {new_xy.second, new_xy.first};
@@ -104,27 +109,23 @@ pair<int, int> get_next_empty_pos() {
             right_empty_pos.pop();
         }
         if (board[new_xy.first][new_xy.second] == 1) {
-            cout<<"PICKED: "<<new_xy.first<<" "<<new_xy.second<<"\n";
             return new_xy;
-        }
-        else{
-            cout<<"SKIP: "<<new_xy.first<<" "<<new_xy.second<<"\n";
         }
     }
     return {-1, -1};
 }
 
 void dfs_solve(int index, pair<int, int> xy){
+    int orderCount = 1;
+    for (const auto& [id, xyp] : placed_order) {
+        cout<<"Placement "<<orderCount<<": id="<<id<<", x="<<xyp.first<<", y="<<xyp.second<<"\n";
+        orderCount += 1;
+    }
     if (place_piece(xy, index) == true) {
         if (placed_order.size() == pieces.size()) {
             return;
         }
         pair<int, int> new_xy = get_next_empty_pos();
-            int orderCount = 1;
-        for (const auto& [id, xy] : placed_order) {
-            cout<<"Placement "<<orderCount<<": id="<<id<<", x="<<xy.first<<", y="<<xy.second<<"\n";
-            orderCount += 1;
-        }
         if(new_xy.first == -1){
             return;
         }
@@ -145,11 +146,6 @@ void dfs_solve(int index, pair<int, int> xy){
             return;
         }
         pair<int, int> new_xy = get_next_empty_pos();
-            int orderCount = 1;
-        for (const auto& [id, xy] : placed_order) {
-            cout<<"Placement "<<orderCount<<": id="<<id<<", x="<<xy.first<<", y="<<xy.second<<"\n";
-            orderCount += 1;
-        }
         if(new_xy.first == -1){
             return;
         }
@@ -183,4 +179,4 @@ int main()
     }
 
     return 0;
-}
+} 
