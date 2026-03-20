@@ -70,6 +70,7 @@ bool place_piece(pair<int,int>& xy, int id) {
     return true;
 }
 
+// TODO: The remove needs to also add empty pos to PQs
 void remove_last_piece() {
     auto [id, xy] = placed_order.back();
     placed_order.pop_back();
@@ -91,6 +92,9 @@ pair<int, int> get_next_empty_pos() {
     pair<int, int> new_xy;
     while (true) {
         if (right_empty_pos.empty()) {
+            if (top_empty_pos.empty()) {
+                return {-1,-1};
+            }
             new_xy = top_empty_pos.top();
             top_empty_pos.pop();
             new_xy = {new_xy.second, new_xy.first};
@@ -100,7 +104,11 @@ pair<int, int> get_next_empty_pos() {
             right_empty_pos.pop();
         }
         if (board[new_xy.first][new_xy.second] == 1) {
+            cout<<"PICKED: "<<new_xy.first<<" "<<new_xy.second<<"\n";
             return new_xy;
+        }
+        else{
+            cout<<"SKIP: "<<new_xy.first<<" "<<new_xy.second<<"\n";
         }
     }
     return {-1, -1};
@@ -108,7 +116,18 @@ pair<int, int> get_next_empty_pos() {
 
 void dfs_solve(int index, pair<int, int> xy){
     if (place_piece(xy, index) == true) {
+        if (placed_order.size() == pieces.size()) {
+            return;
+        }
         pair<int, int> new_xy = get_next_empty_pos();
+            int orderCount = 1;
+        for (const auto& [id, xy] : placed_order) {
+            cout<<"Placement "<<orderCount<<": id="<<id<<", x="<<xy.first<<", y="<<xy.second<<"\n";
+            orderCount += 1;
+        }
+        if(new_xy.first == -1){
+            return;
+        }
         for (int i = 1; i< placed_pieces.size(); ++i) {
             if (!placed_pieces[i]) {
                 dfs_solve(i, new_xy);
@@ -122,7 +141,18 @@ void dfs_solve(int index, pair<int, int> xy){
 
 
     if (place_piece(xy, -(index)) == true) {
+        if (placed_order.size() == pieces.size()) {
+            return;
+        }
         pair<int, int> new_xy = get_next_empty_pos();
+            int orderCount = 1;
+        for (const auto& [id, xy] : placed_order) {
+            cout<<"Placement "<<orderCount<<": id="<<id<<", x="<<xy.first<<", y="<<xy.second<<"\n";
+            orderCount += 1;
+        }
+        if(new_xy.first == -1){
+            return;
+        }
         for (int i = 1; i< placed_pieces.size(); ++i) {
             if (!placed_pieces[i]) {
                 dfs_solve(i, new_xy);
@@ -149,6 +179,7 @@ int main()
     int orderCount = 1;
     for (const auto& [id, xy] : placed_order) {
         cout<<"Placement "<<orderCount<<": id="<<id<<", x="<<xy.first<<", y="<<xy.second<<"\n";
+        orderCount += 1;
     }
 
     return 0;
