@@ -2,6 +2,8 @@ import os
 import shutil
 import re
 
+CODEFORCES_DIR = os.path.dirname(os.path.abspath(__file__))
+
 def organize_files_by_number(directory):
     os.chdir(directory)
     
@@ -40,14 +42,14 @@ def remove_exe_files(directory):
     # Walk through the directory
     for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.endswith('.exe'):
+            if file.endswith(('.exe', '.out')):
                 file_path = os.path.join(root, file)
                 os.remove(file_path)
                 print(f"Removed: {file_path}")
 
 
-organize_files_by_number(r'C:\Users\janah\Desktop\Code\CompetitiveProgramming\CodeForces')
+organize_files_by_number(CODEFORCES_DIR)
 
-organize_folders(r'C:\Users\janah\Desktop\Code\CompetitiveProgramming\CodeForces')
+organize_folders(CODEFORCES_DIR)
 
-remove_exe_files(r'C:\Users\janah\Desktop\Code\CompetitiveProgramming\CodeForces')
+remove_exe_files(CODEFORCES_DIR)
