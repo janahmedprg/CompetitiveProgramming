@@ -31,6 +31,7 @@ int32_t main()
             else {
                 curr_b += 1;
                 curr = s[i];
+                b = max(b,curr_b);
             }
         }
 
