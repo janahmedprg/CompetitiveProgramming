@@ -4,6 +4,15 @@ import re
 
 CODEFORCES_DIR = os.path.dirname(os.path.abspath(__file__))
 
+def find_existing_contest_folder(directory, number):
+    contest_folder = "CF_" + number
+
+    for root, dirs, _ in os.walk(directory):
+        if contest_folder in dirs:
+            return os.path.join(root, contest_folder)
+
+    return os.path.join(directory, contest_folder)
+
 def organize_files_by_number(directory):
     os.chdir(directory)
     
@@ -14,7 +23,7 @@ def organize_files_by_number(directory):
                 number = match.group(1)
                 print(number)
                 
-                folder_name = os.path.join(directory,"CF_"+number)
+                folder_name = find_existing_contest_folder(directory, number)
                 if not os.path.exists(folder_name):
                     os.mkdir(folder_name)
                 
