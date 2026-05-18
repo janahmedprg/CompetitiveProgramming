@@ -23,13 +23,10 @@ int32_t main()
         for (int i = 0; i<n; ++i) {
             if (visited[i] == 1) {
                 max_sit = max(max_sit, count);
-                visited[v[i] - 1] = 1;
                 count -= 1;
             }
-            else {
-                count += 1;
-                visited[v[i] - 1] = 1;
-            }
+            count += 1;
+            visited[v[i] - 1] = 1;
         }
         if (max_sit == 0) {
             max_sit = count;
