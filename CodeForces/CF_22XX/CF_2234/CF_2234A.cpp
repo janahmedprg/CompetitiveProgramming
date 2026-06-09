@@ -20,7 +20,7 @@ int32_t main()
         sort(v.begin(), v.end(), greater<int>());
         bool flag = true;
 
-        for (size_t i = 1; i < n; i++) {
+        for (size_t i = 2; i < n; i++) {
             if (v[i-2] % v[i-1] != v[i]) {
                 cout << "-1\n";
                 flag = false;
